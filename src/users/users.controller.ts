@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
 } from '@nestjs/common';
@@ -14,11 +14,11 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   criar(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.criar(createUserDto);
+    return this.usersService.criarSenha(createUserDto);
   }
 
   @Post('/login')
@@ -36,7 +36,7 @@ export class UsersController {
     return this.usersService.encontrarUm(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   atualizar(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.atualizar(+id, updateUserDto);
   }

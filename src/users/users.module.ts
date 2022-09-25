@@ -10,4 +10,4 @@ import { CriptografiaService } from 'src/criptografia/criptografia.service';
   controllers: [UsersController],
   providers: [UsersService, CriptografiaService],
 })
-export class UsersModule {}
+export class UsersModule { }

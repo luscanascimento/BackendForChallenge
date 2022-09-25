@@ -1,15 +1,21 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  usuario: string;
+  titulo: string;
 
   @Column()
-  senha: string;
+  descricao: string;
+
+  @Column()
+  prioridade: string;
+
+  @Column()
+  status: string;
 
   @Column()
   dataDeCriacao: string;

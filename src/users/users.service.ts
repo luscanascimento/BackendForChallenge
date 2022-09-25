@@ -1,42 +1,28 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CriptografiaService } from 'src/criptografia/criptografia.service';
 import { LoginDto } from './dto/login.dto';
+import { AbstractService } from '../abstract.service';
 
 @Injectable()
-export class UsersService {
+export class UsersService extends AbstractService<User> {
   saltOrRounds = 10;
   password = 'random_password';
 
   constructor(
     @InjectRepository(User)
-    private repository: Repository<User>,
+    protected repository: Repository<User>,
     private hash: CriptografiaService,
-  ) {}
+  ) {
+    super(repository);
+  }
 
-  async criar(createUserDto: CreateUserDto) {
+  async criarSenha(createUserDto: CreateUserDto) {
     createUserDto.senha = await this.hash.criptografar(createUserDto.senha);
-    return this.repository.save(createUserDto);
-  }
-
-  encontrarTodos() {
-    return this.repository.find();
-  }
-
-  encontrarUm(id: number) {
-    return this.repository.findOne(id);
-  }
-
-  atualizar(id: number, updateUserDto: UpdateUserDto) {
-    return this.repository.update(id, updateUserDto);
-  }
-
-  remover(id: number) {
-    return this.repository.delete(id);
+    return this.criar(createUserDto);
   }
 
   async pesquisarPorUsuarioESenha(data: LoginDto) {
